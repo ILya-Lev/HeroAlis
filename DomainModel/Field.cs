@@ -11,14 +11,17 @@ namespace DomainModel
 
 		public Hero Hero { get; set; }
 		public Monster Monster { get; set; }
+		public string Winner { get; private set; }
 
 		private readonly List<Node> _nodes;
+		private readonly List<Node> _path;
 
 		public Field (int width, int height, Hero hero, Monster monster)
 		{
 			Width = width;
 			Height = height;
 			_nodes = new List<Node>(width * height);
+			_path = new List<Node>();
 
 			var trc = new Position { X = width, Y = height };       // trc = top right corner
 
@@ -29,14 +32,45 @@ namespace DomainModel
 				throw new ArgumentException($"Hero {monster.Position} cannot stand outside the field {trc}");
 
 			Hero = hero;
+			Hero.MonsterIsMet += Battle;
 			Monster = monster;
+
+			InitializeNodes();
 		}
 
 		private void InitializeNodes ()
 		{
-			//todo lis: implemnet this!
+			throw new NotImplementedException();
 		}
 
+		public string MakeMove ()
+		{
+			CalculateThePath();
+			foreach (Node node in _path)
+			{
+				Hero.MoveTo(node);
+			}
+			return Winner;
+		}
 
+		private void CalculateThePath ()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void Battle (Hero hero, Monster monster)
+		{
+			if (hero == null || monster == null)
+				throw new ArgumentException("either hero or monster is null");
+
+			while (hero.IsAlive || monster.IsAlive)
+			{
+				hero.Attacked(monster.Damage);
+				if (hero.IsAlive)
+					monster.Attacked(hero.Damage);
+			}
+
+			Winner = hero.IsAlive ? nameof(Hero) : nameof(Monster);
+		}
 	}
 }

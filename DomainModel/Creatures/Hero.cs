@@ -2,7 +2,6 @@
 
 namespace DomainModel.Creatures
 {
-	public delegate void MonsterIsMetHandler (Hero hero);
 	public class Hero : BaseCreature
 	{
 		public override int Damage => State.Attack * State.Mana;
@@ -29,7 +28,7 @@ namespace DomainModel.Creatures
 												+ "Hero is already dead.");
 			Position = node.Position;
 			if (node.IsHole) IsAlive = false;
-			else if (node.IsMonster) MonsterIsMet?.Invoke(this);
+			else if (node.IsMonster) MonsterIsMet?.Invoke(this, node.Monster as Monster);
 			else State += node.WillChangeCreatureStateBy;
 		}
 	}

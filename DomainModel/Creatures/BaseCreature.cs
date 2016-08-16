@@ -1,5 +1,7 @@
 ﻿namespace DomainModel.Creatures
 {
+	public delegate void MonsterIsMetHandler (Hero hero, Monster monster);
+
 	public abstract class BaseCreature
 	{
 		public Position Position { get; set; }
