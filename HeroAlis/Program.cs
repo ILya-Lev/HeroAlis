@@ -10,6 +10,7 @@ namespace HeroAlis
 	{
 		static void Main (string[] args)
 		{
+
 		}
 	}
 }
