@@ -38,13 +38,15 @@ namespace HeroAlis.Logic
 			private readonly Dictionary<Vertex, Edge> _seenVertices = new Dictionary<Vertex, Edge>();
 			private readonly HashSet<Edge> _outerEdges = new HashSet<Edge>();
 			public int Count => _seenVertices.Count;
-
+			private static readonly Random _generator = new Random(DateTime.Now.Millisecond);
 			public Edge BetterEdge()
 			{
 				if (_outerEdges.IsNullOrEmpty())
 					return null;
 
-				return _outerEdges.Where(e => !e.Tail.Cell.IsHole).MaxBy(e => e.Length);
+				//return _outerEdges.Where(e => !e.Tail.Cell.IsHole).MinBy(e => e.Length);
+				var grouping = _outerEdges.GroupBy(e => e.Length).MinBy(g => g.Key);
+				return grouping.ElementAt(_generator.Next(0, grouping.Count() - 1));
 			}
 
 			public void AddTailVertex(Vertex vertex, Edge edge)

@@ -1,5 +1,6 @@
 ﻿using HeroAlis.DataModel;
 using HeroAlis.Logic;
+using System;
 using System.Linq;
 
 namespace HeroAlisSolution
@@ -14,10 +15,14 @@ namespace HeroAlisSolution
 			var monsterVertex = graph.Vertices.FirstOrDefault(v => v.Cell.IsMonster);
 
 			var path = DijkstraPath.FindPath(graph, heroVertex, monsterVertex);
-
 			Utilities.PrintPath(field, path);
-
 			var pathScore = path.Score();
+
+			Console.WriteLine();
+
+			var reversePath = DijkstraPath.FindPath(graph, monsterVertex, heroVertex);
+			Utilities.PrintPath(field, reversePath);
+			var reversePathScore = path.Score();
 
 			var hero = new State
 			{

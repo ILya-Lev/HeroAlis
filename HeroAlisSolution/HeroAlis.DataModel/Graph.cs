@@ -20,6 +20,8 @@ namespace HeroAlis.DataModel
 		public Vertex Head { get; set; }
 		public Vertex Tail { get; set; }
 
-		public int Length => Tail.Cell.Attack + Tail.Cell.Defence + Tail.Cell.Mana + Tail.Cell.Stamina;
+		public int Length => Tail.Cell.IsHole
+			? 100000
+			: 1000 - (Tail.Cell.Attack + Tail.Cell.Defence + Tail.Cell.Mana + Tail.Cell.Stamina);
 	}
 }
